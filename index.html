@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSIS Election</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .dark-mode {
+            background-color: #1a202c;
+            color: #cbd5e0;
+        }
+        .dark-mode .bg-white {
+            background-color: #2d3748;
+        }
+        .dark-mode .text-gray-700 {
+            color: #a0aec0;
+        }
+        .fade-in {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Homepage -->
+    <div class="min-h-screen flex items-center justify-center bg-blue-500 fade-in" id="homepage">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+            <h1 class="text-3xl font-bold mb-6 text-center text-blue-700">OSIS Election</h1>
+            <div class="mb-4">
+                <button class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition duration-300" id="loginBtn">Login</button>
+            </div>
+            <div>
+                <button class="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition duration-300" id="registerBtn">Register</button>
+            </div>
+            <div class="mt-4 text-center">
+                <button class="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 transition duration-300" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Form -->
+    <div class="hidden min-h-screen flex items-center justify-center bg-blue-500 fade-in" id="loginForm">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+            <h1 class="text-3xl font-bold mb-6 text-center text-blue-700">Login</h1>
+            <form id="loginFormElement">
+                <div class="mb-4">
+                    <label class="block text-gray-700" for="loginEmail">Email</label>
+                    <input class="w-full px-3 py-2 border rounded-lg" id="loginEmail" type="email" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700" for="loginPassword">Password</label>
+                    <input class="w-full px-3 py-2 border rounded-lg" id="loginPassword" type="password" required>
+                </div>
+                <div>
+                    <button class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition duration-300" type="submit">Login</button>
+                </div>
+            </form>
+            <button class="mt-4 text-blue-500 hover:text-blue-700 cursor-pointer" onclick="showHomePage()">Back to Home</button>
+            <button class="mt-4 text-blue-500 hover:text-blue-700 cursor-pointer" onclick="showForgotPassword()">Forgot Password?</button>
+        </div>
+    </div>
+
+    <!-- Forgot Password Form -->
+    <div class="hidden min-h-screen flex items-center justify-center bg-blue-500 fade-in" id="forgotPasswordForm">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+            <h1 class="text-3xl font-bold mb-6 text-center text-blue-700">Forgot Password</h1>
+            <form id="forgotPasswordFormElement">
+                <div class="mb-4">
+                    <label class="block text-gray-700" for="forgotPasswordEmail">Email</label>
+                    <input class="w-full px-3 py-2 border rounded-lg" id="forgotPasswordEmail" type="email" required>
+                </div>
+                <div>
+                    <button class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition duration-300" type="submit">Reset Password</button>
+                </div>
+            </form>
+            <button class="mt-4 text-blue-500 hover:text-blue-700 cursor-pointer" onclick="showHomePage()">Back to Home</button>
+        </div>
+    </div>
+
+    <!-- Register Form -->
+    <div class="hidden min-h-screen flex items-center justify-center bg-green-500 fade-in" id="registerForm">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+            <h1 class="text-3xl font-bold mb-6 text-center text-green-700">Register</h1>
+            <form id="registerFormElement">
+                <div class="mb-4">
+                    <label class="block text-gray-700" for="registerName">Name</label>
+                    <input class="w-full px-3 py-2 border rounded-lg" id="registerName" type="text" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700" for="registerEmail">Email</label>
+                    <input class="w-full px-3 py-2 border rounded-lg" id="registerEmail" type="email" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700" for="registerPassword">Password</label>
+                    <input class="w-full px-3 py-2 border rounded-lg" id="registerPassword" type="password" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700" for="registerConfirmPassword">Confirm Password</label>
+                    <input class="w-full px-3 py-2 border rounded-lg" id="registerConfirmPassword" type="password" required>
+                </div>
+                <div>
+                    <button class="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition duration-300" type="submit">Register</button>
+                </div>
+            </form>
+            <button class="mt-4 text-blue-500 hover:text-blue-700 cursor-pointer" onclick="showHomePage()">Back to Home</button>
+        </div>
+    </div>
+
+    <!-- Voting Page -->
+    <div class="hidden min-h-screen bg-gray-100 p-8 fade-in" id="votingPage">
+        <h1 class="text-4xl font-bold mb-6 text-center text-blue-700">Vote for Your Candidate</h1>
+        <div class="mb-4 flex justify-between items-center">
+            <input class="w-full px-3 py-2 border rounded-lg" id="searchCandidates" type="text" placeholder="Search candidates..." oninput="filterCandidates()">
+            <select class="ml-4 px-3 py-2 border rounded-lg" id="sortCandidates" onchange="sortCandidates()">
+                <option value="name">Sort by Name</option>
+                <option value="votes">Sort by Votes</option>
+            </select>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="candidatesList">
+            <div class="bg-white p-6 rounded-lg shadow-lg transform transition duration-500 hover:scale-105">
+                <img src="https://storage.googleapis.com/a1aa/image/jvr0Z-DHoYoLpBWDedPe3qwEnNvvHtHM_C_bOf-UoyI.jpg" alt="Candidate 1 photo" class="w-full h-48 object-cover rounded-lg mb-4">
+                <h2 class="text-xl font-bold mb-2">Candidate 1</h2>
+                <p class="text-gray-700 mb-4">Manifesto: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <button class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition duration-300" onclick="voteFor(1)">Vote</button>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-lg transform transition duration-500 hover:scale-105">
+                <img src="https://storage.googleapis.com/a1aa/image/pW1NEMyG_1oaR0uA1qfu3mCNfPuUWA69jRab1K6DF24.jpg" alt="Candidate 2 photo" class="w-full h-48 object-cover rounded-lg mb-4">
+                <h2 class="text-xl font-bold mb-2">Candidate 2</h2>
+                <p class="text-gray-700 mb-4">Manifesto: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <button class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition duration-300" onclick="voteFor(2)">Vote</button>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-lg transform transition duration-500 hover:scale-105">
+                <img src="https://storage.googleapis.com/a1aa/image/-mh7o06J-FCKUQRnkp5020fBihofXDEr1Csu9WMJ8AQ.jpg" alt="Candidate 3 photo" class="w-full h-48 object-cover rounded-lg mb-4">
+                <h2 class="text-xl font-bold mb-2">Candidate 3</h2>
+                <p class="text-gray-700 mb-4">Manifesto: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <button class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition duration-300" onclick="voteFor(3)">Vote</button>
+            </div>
+        </div>
+        <div class="mt-6 flex justify-between">
+            <button class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300" onclick="logout()">Logout</button>
+            <button class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300" onclick="showProfilePage()">Profile</button>
+        </div>
+    </div>
+
+    <!-- Admin Vote Count Page -->
+    <div class="hidden min-h-screen bg-gray-100 p-8 fade-in" id="adminPage">
+        <h1 class="text-4xl font-bold mb-6 text-center text-blue-700">Real-Time Vote Count</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-lg shadow-lg transform transition duration-500 hover:scale-105">
+                <h2 class="text-xl font-bold mb-2">Candidate 1</h2>
+                <p class="text-gray-700 mb-4">Votes: <span id="candidate1Votes">0</span></p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-lg transform transition duration-500 hover:scale-105">
+                <h2 class="text-xl font-bold mb-2">Candidate 2</h2>
+                <p class="text-gray-700 mb-4">Votes: <span id="candidate2Votes">0</span></p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-lg transform transition duration-500 hover:scale-105">
+                <h2 class="text-xl font-bold mb-2">Candidate 3</h2>
+                <p class="text-gray-700 mb-4">Votes: <span id="candidate3Votes">0</span></p>
+            </div>
+        </div>
+        <div class="mt-6 flex justify-between">
+            <button class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300" onclick="showVotingPage()">Back to Voting</button>
+            <button class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300" onclick="resetVotes()">Reset Votes</button>
+        </div>
+    </div>
+    
+    <!-- Profile Page -->
+    <div class="hidden min-h-screen flex items-center justify-center bg-gray-100 fade-in" id="profilePage">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+            <h1 class="text-3xl font-bold mb-6 text-center text-blue-700">Profile</h1>
+            <div class="mb-4">
+                <label class="block text-gray-700">Name</label>
+                <p id="profileName" class="w-full px-3 py-2 border rounded-lg bg-gray-200"></p>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Email</label>
+                <p id="profileEmail" class="w-full px-3 py-2 border rounded-lg bg-gray-200"></p>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Avatar</label>
+                <input type="file" id="profileAvatar" class="w-full px-3 py-2 border rounded-lg bg-gray-200" accept="image/*" onchange="uploadAvatar()">
+                <img id="avatarPreview" class="mt-4 w-32 h-32 rounded-full object-cover" src="" alt="Avatar Preview">
+            </div>
+            <div class="mt-6 flex justify-between">
+                <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition duration-300" onclick="editProfile()">Edit</button>
+                <button class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-300" onclick="changePassword()">Change Password</button>
+                <button class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300" onclick="showVotingPage()">Back to Voting</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Form -->
+    <div class="hidden min-h-screen flex items-center justify-center bg-gray-100 fade-in" id="changePasswordForm">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+            <h1 class="text-3xl font-bold mb-6 text-center text-blue-700">Change Password</h1>
+            <form id="changePasswordFormElement">
+                <div class="mb-4">
+                    <label class="block text-gray-700" for="currentPassword">Current Password</label>
+                    <input class="w-full px-3 py-2 border rounded-lg" id="currentPassword" type="password" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700" for="newPassword">New Password</label>
+                    <input class="w-full px-3 py-2 border rounded-lg" id="newPassword" type="password" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700" for="confirmNewPassword">Confirm New Password</label>
+                    <input class="w-full px-3 py-2 border rounded-lg" id="confirmNewPassword" type="password" required>
+                </div>
+                <div>
+                    <button class="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition duration-300" type="submit">Change Password</button>
+                </div>
+            </form>
+            <button class="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300" onclick="showProfilePage()">Back to Profile</button>
+        </div>
+    </div>
+
+    <!-- Candidate Details Modal -->
+    <div class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center fade-in" id="candidateDetailsModal">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+            <h2 id="candidateDetailsName" class="text-2xl font-bold mb-4"></h2>
+            <img id="candidateDetailsImage" class="w-full h-48 object-cover rounded-lg mb-4">
+            <p id="candidateDetailsManifesto" class="text-gray-700 mb-4"></p>
+            <button class="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300" onclick="closeCandidateDetails()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to toggle dark mode
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        // Function to upload avatar
+        function uploadAvatar() {
+            const file = document.getElementById('profileAvatar').files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('avatarPreview').src = e.target.result;
+                localStorage.setItem('avatar', e.target.result);
+            }
+            reader.readAsDataURL(file);
+        }
+
+        // Function to show the homepage and hide other pages
+        function showHomePage() {
+            document.getElementById('homepage').classList.remove('hidden');
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('votingPage').classList.add('hidden');
+            document.getElementById('adminPage').classList.add('hidden');
+            document.getElementById('profilePage').classList.add('hidden');
+            document.getElementById('forgotPasswordForm').classList.add('hidden');
+            document.getElementById('changePasswordForm').classList.add('hidden');
+        }
+
+        // Function to show the forgot password form
+        function showForgotPassword() {
+            document.getElementById('forgotPasswordForm').classList.remove('hidden');
+            document.getElementById('loginForm').classList.add('hidden');
+        }
+
+        // Event listener for the login button to show the login form
+        document.getElementById('loginBtn').addEventListener('click', function() {
+           document.getElementById('homepage').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+             document.getElementById('registerForm').classList.add('hidden');
+        });
+
+        // Event listener for the register button to show the register form
+        document.getElementById('registerBtn').addEventListener('click', function() {
+          document.getElementById('homepage').classList.add('hidden');
+            document.getElementById('registerForm').classList.remove('hidden');
+              document.getElementById('loginForm').classList.add('hidden');
+
+        });
+
+
+            // Dummy vote counts
+         let candidate1Votes = 0;
+         let candidate2Votes = 0;
+         let candidate3Votes = 0;
+
+        function updateVoteCounts() {
+        document.getElementById('candidate1Votes').textContent = candidate1Votes;
+        document.getElementById('candidate2Votes').textContent = candidate2Votes;
+        document.getElementById('candidate3Votes').textContent = candidate3Votes;
+    }
+
+         function voteFor(candidate) {
+            if (confirm(`Are you sure you want to vote for Candidate ${candidate}?`)) {
+                if(candidate === 1){
+                    candidate1Votes++;
+                }else if (candidate ===2){
+                    candidate2Votes++;
+                }else if (candidate ===3){
+                    candidate3Votes++;
+                }
+                
+               updateVoteCounts();
+                
+               alert(`Vote recorded for Candidate ${candidate}`)
+
+                 showAdminPage();
+            }
+        }
+
+          function showVotingPage() {
+            document.getElementById('votingPage').classList.remove('hidden');
+            document.getElementById('adminPage').classList.add('hidden');
+            document.getElementById('profilePage').classList.add('hidden');
+            document.getElementById('changePasswordForm').classList.add('hidden');
+        }
+          function showAdminPage() {
+             document.getElementById('votingPage').classList.add('hidden');
+            document.getElementById('adminPage').classList.remove('hidden');
+
+        }
+
+        function showProfilePage() {
+            document.getElementById('profilePage').classList.remove('hidden');
+            document.getElementById('votingPage').classList.add('hidden');
+            document.getElementById('profileName').textContent = localStorage.getItem('name');
+            document.getElementById('profileEmail').textContent = localStorage.getItem('email');
+            const avatar = localStorage.getItem('avatar');
+            if (avatar) {
+                document.getElementById('avatarPreview').src = avatar;
+            }
+        }
+
+        function resetVotes() {
+            if (confirm('Are you sure you want to reset all votes?')) {
+                candidate1Votes = 0;
+                candidate2Votes = 0;
+                candidate3Votes = 0;
+                updateVoteCounts();
+                alert('All votes have been reset.');
+            }
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                showHomePage();
+            }
+        }
+
+        // Event listener for the login form submission
+         document.getElementById('loginFormElement').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // For demonstration purposes, we check if the username is 'admin@example.com' and the password is 'admin'.
+             if (email === 'admin@example.com' && password === 'admin') {
+                 
+            alert('Login successful!');
+            localStorage.setItem('email', email);
+            showVotingPage();
+              
+        }else {
+                alert('Login failed. Please check your credentials.');
+            }
+         });
+
+
+        // Event listener for the register form submission
+          document.getElementById('registerFormElement').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            const name = document.getElementById('registerName').value;
+             const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match.');
+                return;
+            }
+
+            // You would typically send this data to your backend server for validation and saving
+            alert('Registration successful');
+            localStorage.setItem('name', name);
+            localStorage.setItem('email', email);
+            showVotingPage();
+
+         });
+
+        function editProfile() {
+            const newName = prompt('Enter new name:', localStorage.getItem('name'));
+            const newEmail = prompt('Enter new email:', localStorage.getItem('email'));
+            if (newName && newEmail) {
+                localStorage.setItem('name', newName);
+                localStorage.setItem('email', newEmail);
+                document.getElementById('profileName').textContent = newName;
+                document.getElementById('profileEmail').textContent = newEmail;
+                alert('Profile updated successfully.');
+            }
+        }
+
+        function changePassword() {
+            document.getElementById('changePasswordForm').classList.remove('hidden');
+            document.getElementById('profilePage').classList.add('hidden');
+        }
+
+        document.getElementById('changePasswordFormElement').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+
+            // For demonstration purposes, we assume the current password is 'admin'.
+            if (currentPassword !== 'admin') {
+                alert('Current password is incorrect.');
+                return;
+            }
+
+            if (newPassword !== confirmNewPassword) {
+                alert('New passwords do not match.');
+                return;
+            }
+
+            // You would typically send this data to your backend server for validation and saving
+            alert('Password changed successfully');
+            showProfilePage();
+        });
+
+        function showCandidateDetails(candidate) {
+            const candidateDetails = {
+                1: {
+                    name: 'Candidate 1',
+                    image: 'https://storage.googleapis.com/a1aa/image/jvr0Z-DHoYoLpBWDedPe3qwEnNvvHtHM_C_bOf-UoyI.jpg',
+                    manifesto: 'Manifesto: Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+                },
+                2: {
+                    name: 'Candidate 2',
+                    image: 'https://storage.googleapis.com/a1aa/image/pW1NEMyG_1oaR0uA1qfu3mCNfPuUWA69jRab1K6DF24.jpg',
+                    manifesto: 'Manifesto: Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+                },
+                3: {
+                    name: 'Candidate 3',
+                    image: 'https://storage.googleapis.com/a1aa/image/-mh7o06J-FCKUQRnkp5020fBihofXDEr1Csu9WMJ8AQ.jpg',
+                    manifesto: 'Manifesto: Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+                }
+            };
+            const details = candidateDetails[candidate];
+            document.getElementById('candidateDetailsName').textContent = details.name;
+            document.getElementById('candidateDetailsImage').src = details.image;
+            document.getElementById('candidateDetailsManifesto').textContent = details.manifesto;
+            document.getElementById('candidateDetailsModal').classList.remove('hidden');
+        }
+
+        function closeCandidateDetails() {
+            document.getElementById('candidateDetailsModal').classList.add('hidden');
+        }
+
+        function filterCandidates() {
+            const searchValue = document.getElementById('searchCandidates').value.toLowerCase();
+            const candidates = document.querySelectorAll('#candidatesList > div');
+            candidates.forEach(candidate => {
+                const candidateName = candidate.querySelector('h2').textContent.toLowerCase();
+                if (candidateName.includes(searchValue)) {
+                    candidate.classList.remove('hidden');
+                } else {
+                    candidate.classList.add('hidden');
+                }
+            });
+        }
+
+        function sortCandidates() {
+            const sortValue = document.getElementById('sortCandidates').value;
+            const candidatesList = document.getElementById('candidatesList');
+            const candidates = Array.from(candidatesList.children);
+            candidates.sort((a, b) => {
+                if (sortValue === 'name') {
+                    return a.querySelector('h2').textContent.localeCompare(b.querySelector('h2').textContent);
+                } else if (sortValue === 'votes') {
+                    return parseInt(b.querySelector('span').textContent) - parseInt(a.querySelector('span').textContent);
+                }
+            });
+            candidates.forEach(candidate => candidatesList.appendChild(candidate));
+        }
+    </script>
+</body>
+</html>
